@@ -39,16 +39,17 @@ def checkHeads(
     image,
     csv_result_msg_final,
     i,
-    output_folder_name,
+    image_storage_folder
 ):
     if "head" in labels:
         print("head found")
         image_name = f"{image_name_list[i]}"
-        image_loc = os.path.join(f"{output_folder_name}/", image_name)
+        image_loc = os.path.join(f"{image_storage_folder}/", image_name)
         # cv2.imwrite(image_loc, image, [cv2.IMWRITE_JPEG_QUALITY, 1])
         cv2.imwrite(image_loc, image)
-        print("After Compression")
-        show_file_size(image_loc)
+        
+        # print("After Compression")
+        # show_file_size(image_loc)
 
         img_loc = image_path_list[i]
         message = "No Helmet"

@@ -15,15 +15,16 @@ frame_wid = 640
 frame_hyt = 480
 
 
-def processImages(image_path_list, image_name_list, output_folder_name):
+def processImages(image_path_list, image_name_list, image_storage_folder):
     box_annotator = sv.BoxAnnotator(thickness=2, text_thickness=1, text_scale=1)
 
     csv_result_msg_final = []
 
     for i in range(len(image_path_list)):
         frame = cv2.imread(image_path_list[i])
-        print("Before Compression")
-        show_file_size(image_path_list[i])
+
+        # print("Before Compression")
+        # show_file_size(image_path_list[i])
 
         image = cv2.resize(frame, (frame_wid, frame_hyt))
 
@@ -43,7 +44,7 @@ def processImages(image_path_list, image_name_list, output_folder_name):
             image,
             csv_result_msg_final,
             i,
-            output_folder_name,
+            image_storage_folder,
         )
 
         cv2.imshow("Helmet Detection", image)
@@ -57,9 +58,19 @@ if __name__ == "__main__":
     try:
         output_folder_name = datetime.now().strftime("%Y-%m-%d-%H_%M")
         os.makedirs(output_folder_name)
+
+        image_storage_folder = os.path.join(output_folder_name, "images")
+        os.makedirs(image_storage_folder)
     except:
         print("[!] folder already exists [!]")
+
     folder_path = sys.argv[1]
-    image_path_list, image_name_list = imageLoader(folder_path)
-    result = processImages(image_path_list, image_name_list, output_folder_name)
-    saveResultCSV(result, output_folder_name)
+    try:
+        image_path_list, image_name_list = imageLoader(folder_path)
+        result = processImages(image_path_list, image_name_list, image_storage_folder)
+        saveResultCSV(result, output_folder_name)
+        print(f"Images saved to '{image_storage_folder}' \nCSV file generate saved to '{output_folder_name}'")
+    except:
+        print("[!] Some error occured during processing [!]")
+        os.rmdir(image_storage_folder)
+        os.rmdir(output_folder_name)
