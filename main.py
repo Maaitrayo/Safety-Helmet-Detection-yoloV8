@@ -2,6 +2,7 @@ import cv2
 import supervision as sv
 import os
 from datetime import datetime
+import sys
 
 from utils.helperFunctions import *
 from ultralytics import YOLO
@@ -58,7 +59,7 @@ if __name__ == "__main__":
         os.makedirs(output_folder_name)
     except:
         print("[!] folder already exists [!]")
-    folder_path = input("Enter the folder path : ")
+    folder_path = sys.argv[1]
     image_path_list, image_name_list = imageLoader(folder_path)
     result = processImages(image_path_list, image_name_list, output_folder_name)
     saveResultCSV(result, output_folder_name)
