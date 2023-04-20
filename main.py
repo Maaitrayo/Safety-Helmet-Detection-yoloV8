@@ -68,9 +68,9 @@ def processImages(image_path_list, image_name_list, image_storage_folder):
         )
 
         # Show the annotated image
-        cv2.imshow("Helmet Detection", image)
-        if cv2.waitKey(1) == 27:
-            break
+        # cv2.imshow("Helmet Detection", image)
+        # if cv2.waitKey(1) == 27:
+        #     break
 
     return csv_result_msg_final
 
@@ -85,7 +85,14 @@ if __name__ == "__main__":
 
     try:
         # Parse command line arguments to determine input and output folders
-        folder_path = sys.argv[1]
+        # It wont matter if your path has spaces, this will handle that
+        inter_path = sys.argv[1:]
+        real_path = ""
+        for path in inter_path:
+            real_path = real_path+path+" "
+
+        folder_path = real_path.strip()
+        # folder_path = str(sys.argv[1])
         split_list = folder_path.split("\\")
         output_folder_name = os.path.join("Result", split_list[-1])
         os.makedirs(output_folder_name)
