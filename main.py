@@ -44,7 +44,7 @@ def processImages(image_path_list, image_name_list, image_storage_folder):
         # Resize the image to a fixed size
         image = cv2.resize(frame, (frame_wid, frame_hyt))
 
-        # Use the pre-trained YOLOv5 model to detect helmets
+        # Use the pre-trained YOLOv8 model to detect helmets
         results = model(image)[0]
         detections = sv.Detections.from_yolov8(results)
         labels = [f"{model.model.names[class_id]}" for _, _, class_id, _ in detections]
